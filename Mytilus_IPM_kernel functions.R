@@ -13,7 +13,7 @@
 
 
 # set working directory-------------------------
-
+file.choose()
 
 
 
@@ -92,8 +92,8 @@ c_z1z <- function(z1, z, m.par)
 {
   mu <- m.par["rcsz.int"]                                 # mean size of recruits next year
   sig <- m.par["rcsz.sd"]                                 # sd about mean
-  p.den.rcsz <- dnorm(z1, mean = mu, sd = sig)            # pdf that offspring are size z1 given you were size z
-  return(p.den.rcsz)
+  z <- dnorm(z1, mean = mu, sd = sig)            # pdf that offspring are size z1 given you were size z
+  return(z)
 }
 
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,8 +120,6 @@ mk_K <- function(m, m.par, L, U) {
   h <- (U - L)/m
   meshpts <- L + ((1:m) - 1/2) * h
   P <- h * (outer(meshpts, meshpts, P_z1z, m.par = m.par))
-  F <- h * (outer(meshpts, meshpts, F_z1z, m.par = m.par))
-  K <- P + F
-  return(list(K = K, meshpts = meshpts, P = P, F = F))
+  return(list(P = P, meshpts = meshpts))
 }
 
